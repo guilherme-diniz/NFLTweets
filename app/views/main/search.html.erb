@@ -1,0 +1,21 @@
+<div class="col-sm-12" style="background-color: #bdc3c7">
+  <%@timeline.each_with_index do |tweet, i| %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-sm-12">
+          <div class="col-sm-2">
+            <%= tweet.date.strftime("%d/%m/%Y %R")%>
+          </div>
+          <div class="col-sm-6">
+            <%= tweet.text %>
+          </div>
+          <div class="col-sm-4">
+            <% tweet.images.each do |m| %>
+              <%= image_tag m.media_url, size: "250x180" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,39 @@
+<section style="margin-top: 30px;">
+  <%= form_tag main_search_path, method: :post, class: "form-horizontal" do %>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <div class="col-sm-3">
+            <%= label_tag :away, "Away team" %>
+            <%= select_tag :away, options_from_collection_for_select(@teams, :first, :first), class: "form-control select2" , multiple: false%>
+          </div>
+          <div class="col-sm-3">
+            <%= label_tag :away, "Home team" %>
+            <%= select_tag :home, options_from_collection_for_select(@teams, :first, :first), class: "form-control select2" , multiple: false%>
+          </div>
+          <div class="col-sm-3">
+            <%= label_tag :date, "Date" %>
+                <div class='input-group date' id='datetimepicker1'>
+                    <%= text_field_tag :date, '', class: "form-control" %>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+          </div>
+          <div class="col-sm-3">
+            <%= submit_tag 'Search' , class: "btn btn-success"%>
+          </div>
+        </div>
+      </div>
+
+  <% end %>
+  <script>
+      $( ".select2" ).select2({
+      });
+
+    $(function () {
+          $('#datetimepicker1').datetimepicker({
+              format: "DD/MM/YYYY HH:mm"
+            });
+      });
+  </script>
+</section>

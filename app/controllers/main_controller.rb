@@ -39,10 +39,10 @@ class MainController < ApplicationController
   #   away_results.each do |result|
   #     @timeline << Tweet.new(result, 2)
   #   end
-    binding.pry
     @results.delete_if{|x| not (Tweet::KEYWORDS.any?{|w| x.text =~ /#{w}/i})}
     @results.sort_by!{|tweet| tweet.created_at.to_i}
-    @results.delete_if{|x| x.created_at < @date }
+
+    @results.delete_if{|x| (x.created_at < @date) || (x.created_at > (@date+6.hour)) }
 
     @timeline = []
     @results.each do |result|

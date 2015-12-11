@@ -1,21 +1,36 @@
-<div class="col-sm-12" style="background-color: #bdc3c7">
-  <%@timeline.each_with_index do |tweet, i| %>
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="col-sm-12">
-          <div class="col-sm-2">
-            <%= tweet.date.strftime("%d/%m/%Y %R")%>
-          </div>
-          <div class="col-sm-6">
-            <%= tweet.text %>
-          </div>
-          <div class="col-sm-4">
-            <% tweet.images.each do |m| %>
-              <%= image_tag m.media_url, size: "250x180" %>
-            <% end %>
+<div class="content col-sm-12">
+  <div class="header">
+    <h1 ><%= image_tag "nfl.png", size: "100x100" %> NFL Highlights - <%= @away_team %> vs <%= @home_team %> @ <%= @date.strftime("%d/%m/%Y %R") %></h1>
+  </div>
+  <div class="col-sm-2"></div>
+  <div class="timeline col-sm-8">
+    <%@timeline.each_with_index do |tweet, i| %>
+      <div class="tweet panel panel-default">
+        <div class="panel-body">
+          <div class="col-sm-12">
+            <div class="col-sm-1">
+              <div class="panel panel-primary">
+                <div class="panel-body">
+                  <%= tweet.date.strftime("%R")%>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <div class="panel panel-primary">
+                <div class="panel-body">
+                  <%= tweet.text %>
+                </div> 
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <% tweet.images.each do |m| %>
+                <%= image_tag m.media_url, size: "250x180" %>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+  <div class="col-sm-2"></div>
 </div>

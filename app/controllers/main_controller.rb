@@ -18,8 +18,8 @@ class MainController < ApplicationController
 
     query = "##{hashtag} from:NFL"
     hashtag_results = @client.search(query, lang: :en).to_a
-    home_results = @client.search("from:#{account_home_team.screen_name} -rt", lang: :en, since: @date.strftime("%d/%M/%Y") , untli: (@date + 1.day).strftime("%d/%M/%Y") ).to_a
-    away_results = @client.search("from:#{account_away_team.screen_name} -rt", lang: :en, since: @date.strftime("%d/%M/%Y") , untli: (@date + 1.day).strftime("%d/%M/%Y") ).to_a
+    home_results = @client.search("from:#{account_home_team.screen_name} -rt", lang: :en, since: @date.strftime("%Y-%m-%d") , until: (@date + 1.day).strftime("%Y-%m-%d") ).to_a
+    away_results = @client.search("from:#{account_away_team.screen_name} -rt", lang: :en, since: @date.strftime("%Y-%m-%d") , until: (@date + 1.day).strftime("%Y-%m-%d") ).to_a
 
     popular_results = @client.search("##{hashtag} ", lang: :en, result_type: :popular).to_a
 
@@ -39,7 +39,7 @@ class MainController < ApplicationController
   #   away_results.each do |result|
   #     @timeline << Tweet.new(result, 2)
   #   end
-    # binding.pry
+    binding.pry
     @results.delete_if{|x| not (Tweet::KEYWORDS.any?{|w| x.text =~ /#{w}/i})}
     @results.sort_by!{|tweet| tweet.created_at.to_i}
     @results.delete_if{|x| x.created_at < @date }

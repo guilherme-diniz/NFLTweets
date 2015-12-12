@@ -18,27 +18,22 @@ class MainController < ApplicationController
 
     query = "##{hashtag} from:NFL"
     hashtag_results = @client.search(query, lang: :en).to_a
-    home_results = @client.search("from:#{account_home_team.screen_name} -rt", lang: :en, since: @date.strftime("%Y-%m-%d") , until: (@date + 1.day).strftime("%Y-%m-%d") ).to_a
-    away_results = @client.search("from:#{account_away_team.screen_name} -rt", lang: :en, since: @date.strftime("%Y-%m-%d") , until: (@date + 1.day).strftime("%Y-%m-%d") ).to_a
 
-    popular_results = @client.search("##{hashtag} ", lang: :en, result_type: :popular).to_a
+    home_results = []
+    unless account_home_team.nil?
+      home_results = @client.search("from:#{account_home_team.screen_name} -rt", lang: :en, since: @date.strftime("%Y-%m-%d") , until: (@date + 1.day).strftime("%Y-%m-%d") ).to_a
+    end
 
-    @count = hashtag_results.count + home_results.count + away_results.count
+    away_results = []
+    unless account_away_team.nil?
+      away_results = @client.search("from:#{account_away_team.screen_name} -rt", lang: :en, since: @date.strftime("%Y-%m-%d") , until: (@date + 1.day).strftime("%Y-%m-%d") ).to_a
+    end
+
+    popular_results = @client.search("##{hashtag}", lang: :en, result_type: :popular).to_a
+
     @results = hashtag_results + home_results + away_results +  popular_results
     @results.uniq!
 
-  #   @timeline = []
-  #   hashtag_results.each do |result|
-  #     @timeline << Tweet.new(result, 0)
-  #   end
-
-  #   home_results.each do |result|
-  #     @timeline << Tweet.new(result, 1)
-  #   end
-
-  #   away_results.each do |result|
-  #     @timeline << Tweet.new(result, 2)
-  #   end
     @results.delete_if{|x| not (Tweet::KEYWORDS.any?{|w| x.text =~ /#{w}/i})}
     @results.sort_by!{|tweet| tweet.created_at.to_i}
 

@@ -1,36 +1,43 @@
-<div class="content col-sm-12">
-  <div class="header">
-    <h1 ><%= image_tag "nfl.png", size: "100x100" %> NFL Highlights - <%= @away_team %> vs <%= @home_team %> @ <%= @date.strftime("%d/%m/%Y %R") %></h1>
-  </div>
-  <div class="col-sm-2"></div>
-  <div class="timeline col-sm-8">
-    <%@timeline.each_with_index do |tweet, i| %>
-      <div class="tweet panel panel-default">
-        <div class="panel-body">
-          <div class="col-sm-12">
-            <div class="col-sm-1">
-              <div class="panel panel-primary">
-                <div class="panel-body">
-                  <%= tweet.date.strftime("%R")%>
+<% if @timeline.empty? %>
+  <h1> Error! Result not found</h1>
+  <p> Twitter search only go back 1 week</p>
+<% else %>
+  <div class="content col-sm-12">
+    <div class="header">
+      <h1 ><%= image_tag "nfl.png", size: "100x100" %> NFL Highlights - <%= @away_team %> vs <%= @home_team %> @ <%= @date.strftime("%d/%m/%Y %R") %></h1>
+    </div>
+    <div class="col-sm-1"></div>
+    <div class="timeline col-sm-10">
+      <%@timeline.each_with_index do |tweet, i| %>
+        <div class="tweet panel panel-default">
+          <div class="panel-body">
+            <div class="col-sm-12">
+              <div class="col-sm-1">
+                <div class="panel panel-primary">
+                  <div class="panel-body">
+                    <%= tweet.date.strftime("%R")%>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-8">
-              <div class="panel panel-primary">
-                <div class="panel-body">
-                  <%= tweet.text %>
-                </div> 
+              <div class=<%= tweet.images.count > 0 ? 'col-sm-8' : 'col-sm-11' %> >
+                <div class="panel panel-primary">
+                  <div class="panel-body">
+                    <%= tweet.text %>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="col-sm-3">
-              <% tweet.images.each do |m| %>
-                <%= image_tag m.media_url, size: "250x180" %>
+              <%if  tweet.images.count > 0%>
+                <div class="col-sm-3">
+                  <% tweet.images.each do |m| %>
+                    <%= image_tag m.media_url, size: "250x180" %>
+                  <% end %>
+                </div>
               <% end %>
             </div>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+    <div class="col-sm-1"></div>
   </div>
-  <div class="col-sm-2"></div>
-</div>
+<% end %>
